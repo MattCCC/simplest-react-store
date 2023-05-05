@@ -1,0 +1,17 @@
+.git
+.github
+.gitignore
+coverage
+test
+node_modules
+package
+
+*.tgz
+*.map
+*.ts
+!*.d.ts
+tsconfig.json
+.eslintrc.js
+
+.DS_Store
+src
