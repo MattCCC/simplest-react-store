@@ -1,18 +1,18 @@
 {
   "version": "1.0.1",
   "license": "MIT",
-  "name": "simple-react-store",
+  "name": "simplest-react-store",
   "author": "Matt Czapliński <deindesign.pl@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MattCCC/simple-react-store.git"
+    "url": "https://github.com/MattCCC/simplest-react-store.git"
   },
   "main": "dist/browser/index.mjs",
   "typings": "dist/index.d.ts",
   "keywords": [
     "react",
     "store",
-    "simple-react-store",
+    "simplest-react-store",
     "browser",
     "node"
   ],
