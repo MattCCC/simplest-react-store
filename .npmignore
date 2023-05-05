@@ -15,3 +15,7 @@ tsconfig.json
 
 .DS_Store
 src
+
+.prettierrc.json
+jest.config.js
+scripts
