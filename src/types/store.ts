@@ -19,8 +19,12 @@ export type StoreContext<S, A> = Context<Array<S | Actions<A>>>;
 export interface Store<S, M> {
   Provider: FC<PropsWithChildren<Record<string, unknown>>>;
   useStore: () => [S, Actions<M>];
-  useStoreProp: <K extends S[keyof S]>(
-    v: K
-    // @ts-expect-error Indexing generic fn param works just okay
-  ) => [S[K], Actions<M>, S | Actions<M>];
+  useStoreProp: <K extends keyof S>(
+    prop: K
+  ) => [S[K], Actions<M>];
 }
+
+export type ValueOf<
+  ObjectType,
+  ValueType extends keyof ObjectType = keyof ObjectType
+> = ObjectType[ValueType];

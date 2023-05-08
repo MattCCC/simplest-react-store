@@ -1,19 +1,19 @@
 import { useReducer, useMemo, FC, PropsWithChildren } from 'react';
 
 import { createContext, useContextSelector } from 'use-context-selector';
-import { Actions, Funct, Mutations, Payload, Store } from './types/store';
+import { Actions, Funct, Mutations, Payload, Store, ValueOf } from './types/store';
 
 /**
  * Toggle state boolean
  * @param {string} type      State key
  * @returns {object}        Modified state
  */
-export const set =
-  <T, T1, T2 = T>(type: keyof T): Funct<T2, T1> =>
-  (prevState, payload): any => ({
+export function set<T, T1, T2 = T>(type: keyof T): Funct<T2, T1> {
+  return (prevState, payload): unknown => ({
     ...prevState,
     [type]: payload,
   });
+}
 
 function getEmptyActions<S, M extends Mutations<S>>(mutations: M): Actions<M> {
   const actions: Actions<M> = Object.assign({}, mutations);
@@ -35,10 +35,11 @@ export function createStore<S, M extends Mutations<S>>(
   initialState: S,
   mutations: M
 ): Store<S, M> {
-  const context = createContext([
+  const defaultContext: [S, Actions<M>] = [
     initialState,
     getEmptyActions<S, M>(mutations),
-  ]);
+  ];
+  const context = createContext(defaultContext);
   let actions: Actions<M> | null = null;
 
   function reducer(
@@ -54,9 +55,7 @@ export function createStore<S, M extends Mutations<S>>(
     };
   }
 
-  function Provider({
-    children,
-  }: PropsWithChildren<Record<string, unknown>>) {
+  function Provider({ children }: PropsWithChildren<Record<string, unknown>>) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     actions = useMemo(() => {
@@ -71,25 +70,22 @@ export function createStore<S, M extends Mutations<S>>(
       return result;
     }, [dispatch]);
 
-    return (
-      <context.Provider value={[state, actions]}>{children}</context.Provider>
-    );
+    const v = [state, actions] as [S, Actions<M>];
+
+    return <context.Provider value={v}>{children}</context.Provider>;
   }
 
   function useStore() {
     return useContextSelector(context, (state) => state);
   }
 
-  function useStoreProp(prop: keyof M) {
-    const state = useContextSelector(
-      context,
-      (v) => (v[0] as Actions<M>)[prop]
-    );
+  function useStoreProp<K extends keyof S>(prop: K): [S[K], Actions<M>] {
+    const value = useContextSelector(context, (state) => state[0][prop]);
 
-    return [state, actions];
+    return [value, actions];
   }
 
-  return { Provider, useStore, useStoreProp } as any;
+  return { Provider, useStore, useStoreProp };
 }
 
 /**
@@ -98,11 +94,9 @@ export function createStore<S, M extends Mutations<S>>(
  * @returns A single Provider component that provides all the stores
  */
 export function useStoreProvider(
-  ...stores: Array<Store<any, any>>
+  ...stores: Array<Store<unknown, unknown>>
 ): FC<PropsWithChildren<Record<string, unknown>>> {
-  function Provider({
-    children,
-  }: PropsWithChildren<Record<string, unknown>>) {
+  function Provider({ children }: PropsWithChildren<Record<string, unknown>>) {
     let wrapped = children;
 
     stores.forEach(({ Provider: ProviderWrapper }) => {
@@ -123,18 +117,13 @@ export function useStoreProvider(
  * @param obj New object to be updated
  * @returns Merged object
  */
-export const mergeState = (
-  key: string,
-  initialState: { [x: string]: any },
-  prevState: { [x: string]: any },
-  obj: { [x: string]: any } | undefined,
-) => {
-  const newObj = obj
-    ? {
-        ...initialState[key],
-        ...obj,
-      }
-    : prevState[key] || initialState[key];
+export function mergeState<State = { [x: string]: unknown }>(
+  key: keyof State,
+  initialState: State,
+  prevState: State,
+  obj: Partial<ValueOf<State, typeof key>>
+): State {
+  const newObj = obj || prevState[key] || initialState[key];
 
-  return { ...prevState, ...{[key]: newObj} };
-};
+  return { ...prevState, ...{ [key]: newObj } };
+}

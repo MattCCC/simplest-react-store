@@ -55,10 +55,10 @@ const actions = {
 
     setHelloObject(
         prevState: State,
-        helloObject?: Partial<State["helloObject"]>
+        helloObject: Partial<State["helloObject"]>
     ) {
-        return mergeState(
-          "helloObject"
+        return mergeState<State>(
+          "helloObject",
           initialState,
           prevState,
           helloObject,
