@@ -86,7 +86,7 @@ function App({ Component, pageProps }: AppProps) {
 import { useStoreProp } from "store";
 
 export default function MyComponent() {
-const [helloText, dispatch] = useStoreProp("darkTheme");
+const [helloText, dispatch] = useStoreProp("helloText");
 
   useEffect(() => {
     dispatch.setHelloText("Example text");
