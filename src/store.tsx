@@ -123,7 +123,5 @@ export function mergeState<State = { [x: string]: unknown }>(
   prevState: State,
   obj: Partial<ValueOf<State, typeof key>> | undefined
 ): State {
-  const newObj = obj || prevState[key] || initialState[key];
-
-  return { ...prevState, ...{ [key]: newObj } };
+  return { ...prevState, ...{ [key]: { ...initialState[key], ...prevState[key], ...obj } } };
 }
