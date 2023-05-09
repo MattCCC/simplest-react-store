@@ -20,3 +20,7 @@ src
 jest.config.js
 scripts
 demo
+
+# Shrink npm package size
+*.global.js
+node

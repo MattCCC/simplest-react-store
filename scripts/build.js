@@ -91,19 +91,10 @@ moveFile('dist-browser', 'dist/browser', 'index.mjs');
 moveFile('dist-browser', 'dist/browser', 'index.mjs.map');
 moveFile('dist-browser', 'dist/browser', 'index.global.js');
 moveFile('dist-browser', 'dist/browser', 'index.global.js.map');
-moveFile('dist-browser', 'dist/browser', 'index.d.ts');
 
 console.log('Handle typings...')
 
-fs.copyFileSync(
-    path.resolve('dist', 'browser', 'index.d.ts'),
-    path.resolve('dist', 'node', 'index.d.ts'),
-);
-
-fs.copyFileSync(
-    path.resolve('dist', 'browser', 'index.d.ts'),
-    path.resolve('dist', 'index.d.ts'),
-);
+moveFile('dist-browser', 'dist', 'index.d.ts');
 
 removeTempDirs();
 
