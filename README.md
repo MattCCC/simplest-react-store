@@ -57,7 +57,8 @@ const actions = {
         state: State,
         newUserData: Partial<State["user"]>
     ) {
-        // In case of objects it works like a standard reducer
+        // For objects it works like a standard reducer. It is advisable for nested objects
+        // Your new changes will be simply merged with current user state
         return { user: { ...state.user, ...newUserData } };
     },
 };
