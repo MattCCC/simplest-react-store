@@ -33,6 +33,7 @@ yarn add simplest-react-store
 
 ## Usage
 
+### 1. Define your store
 ```typescript
 // store.ts
 import { createStore } from 'simplest-react-store';
@@ -67,7 +68,10 @@ export const { useStore, useStoreProp, Provider } = createStore(
     initialState,
     actions
 );
+```
 
+### 2. Import Provider in your main app file
+```typescript
 // _app.tsx
 import { Provider as MyStoreProvider } from "./store";
 
@@ -78,7 +82,10 @@ function App({ Component, pageProps }: AppProps) {
         </MyStoreProvider>
     );
 }
+```
 
+### 3. Use state anywhere in your components
+```typescript
 // MyComponent.tsx
 import { useEffect } from 'react';
 import { useStoreProp } from "store";
