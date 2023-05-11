@@ -35,34 +35,30 @@ yarn add simplest-react-store
 
 ```typescript
 // store.ts
-import { set, createStore, mergeState } from 'simplest-react-store';
+import { createStore } from 'simplest-react-store';
 
 const initialState = {
     isHelloShown: false,
     helloText: "",
-    helloObject: {
-        text: "",
-        num: 0,
+    user: {
+        name: "Matt",
+        age: 40,
     },
 };
 
 export type State = typeof initialState;
 
 const actions = {
-    showHello: set<State, boolean>("isHelloShown"),
+    showHello: (state: State, toggle: boolean) => (state.isHelloShown = toggle),
 
-    setHelloText: set<State, string>("helloText"),
+    setHelloText: (state: State, value: string) => (state.helloText = value),
 
-    setHelloObject(
-        prevState: State,
-        helloObject: Partial<State["helloObject"]>
+    setUser(
+        state: State,
+        newUserData: Partial<State["user"]>
     ) {
-        return mergeState<State>(
-          "helloObject",
-          initialState,
-          prevState,
-          helloObject,
-        )
+        // In case of objects it works like a standard reducer
+        return { user: { ...state.user, ...newUserData } };
     },
 };
 
@@ -83,18 +79,30 @@ function App({ Component, pageProps }: AppProps) {
 }
 
 // MyComponent.tsx
+import { useEffect } from 'react';
 import { useStoreProp } from "store";
 
 export default function MyComponent() {
-const [helloText, dispatch] = useStoreProp("helloText");
+    const [helloText] = useStoreProp("helloText");
+    const [user] = useStoreProp("user");
+    const [showHello, dispatch] = useStoreProp("isHelloShown");
 
-  useEffect(() => {
-    dispatch.setHelloText("Example text");
-  }, [dispatch]);
+    useEffect(() => {
+        // You can use same dispatch for all actions as it is the same store
+        dispatch.setUser({name: "David", age: 19});
+        dispatch.setHelloText("Hello");
+        dispatch.showHello(true);
+    }, [dispatch]);
 
-  return (
-    <div>{helloText}</div>
-  );
+    return (
+        <div>
+            {showHello && (
+                <span>
+                   {helloText} {user.name}
+                </span>
+            )}
+        </div>
+    );
 }
 
 ```

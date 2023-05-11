@@ -1,32 +1,25 @@
-import { set, createStore, mergeState } from '../src/store';
+import { createStore } from '../src/store';
 
 const initialState = {
     isHelloShown: false,
     helloText: "",
-    helloObject: {
-        text: "",
-        num: 0,
+    user: {
+        name: "",
+        age: 0,
     },
 };
 
 export type State = typeof initialState;
 
 const actions = {
-    showHello: set<State, boolean>("isHelloShown"),
+  showHello: (state: State, toggle: boolean) => (state.isHelloShown = toggle),
 
-    setHelloText: set<State, string>("helloText"),
+  setHelloText: (state: State, value: string) => (state.helloText = value),
 
-    setHelloObject(
-        prevState: State,
-        helloObject: Partial<State["helloObject"]>
-    ) {
-        return mergeState<State>(
-          "helloObject",
-          initialState,
-          prevState,
-          helloObject,
-        )
-    },
+  setUser(state: State, newUserData: Partial<State['user']>) {
+    // In case of objects it works like a standard reducer
+    return { user: { ...state.user, ...newUserData } };
+  },
 };
 
 export const { useStore, useStoreProp, Provider } = createStore(
