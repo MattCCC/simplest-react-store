@@ -74,9 +74,12 @@ export function createStore<S, M extends Mutations<S>>(
       return result;
     }, [dispatch]);
 
-    const v = [state, actions] as [S, Actions<M>];
+    const contextValue = useMemo(
+      () => [state, actions] as [S, Actions<M>],
+      [state, actions]
+    );
 
-    return <context.Provider value={v}>{children}</context.Provider>;
+    return <context.Provider value={contextValue}>{children}</context.Provider>;
   }
 
   function useStore() {
