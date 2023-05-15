@@ -49,6 +49,7 @@ yarn add simplest-react-store
 // store.ts
 import { createStore } from 'simplest-react-store';
 
+// Define the initial state of the store. This includes the properties isHelloShown, helloText, and user with their initial values.
 const initialState = {
     isHelloShown: false,
     helloText: "",
@@ -60,6 +61,9 @@ const initialState = {
 
 export type State = typeof initialState;
 
+// Define the actions that can be performed on the store.
+// These actions are functions that receive the current state and
+// any necessary parameters, and they update the state accordingly.
 const actions = {
     showHello: (state: State, toggle: boolean) => (state.isHelloShown = toggle),
 
@@ -69,12 +73,14 @@ const actions = {
         state: State,
         newUserData: Partial<State["user"]>
     ) {
-        // For objects it works like a standard reducer. It is advisable for nested objects
-        // Your new changes will be simply merged with current user state
+        // For objects, it works similar to a standard reducer and is particularly useful for handling nested objects
+
+        // Update the user state by merging newUserData with the current user object
         return { user: { ...state.user, ...newUserData } };
     },
 };
 
+// Create the store by calling the createStore function and passing the initial state and actions.
 export const { useStore, useStoreProp, Provider } = createStore(
     initialState,
     actions
@@ -82,6 +88,8 @@ export const { useStore, useStoreProp, Provider } = createStore(
 ```
 
 ### 2. Import Provider in your main app file
+
+Wrap your React application with the Provider component provided by the store. This makes the store available to all components in the application.
 
 ```typescript
 // _app.tsx
@@ -97,6 +105,8 @@ function App({ Component, pageProps }: AppProps) {
 ```
 
 ### 3. Use state anywhere in your components
+
+Access the store's state and actions in your components using the useStore and useStoreProp hooks.
 
 ```typescript
 // MyComponent.tsx
@@ -127,6 +137,8 @@ export default function MyComponent() {
 }
 
 ```
+
+That's it! Now you can use the state properties and actions from the store in your components to manage and update the state of your application. Remember to import the necessary functions and components from the store.ts file where needed.
 
 ## Support and collaboration
 
