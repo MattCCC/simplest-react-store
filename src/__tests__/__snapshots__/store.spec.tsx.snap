@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Store Store Provider renders children: <div>test</div> 1`] = `
+<div>
+  test
+</div>
+`;
+
+exports[`Store createStore() returns previous state when mutation result is not an object: <div>0</div> 1`] = `
+<div>
+  0
+</div>
+`;
+
+exports[`Store useStore() returns actions: <button>1</button> 1`] = `
+<button>
+  1
+</button>
+`;
+
+exports[`Store useStore() returns initial state without Provider: <div>Hi</div> 1`] = `
+<div>
+  Hi
+</div>
+`;
+
+exports[`Store useStore() returns state: <div>Hello</div> 1`] = `
+<div>
+  Hello
+</div>
+`;

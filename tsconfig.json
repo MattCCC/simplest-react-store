@@ -5,6 +5,7 @@
     "experimentalDecorators": true,
     "module": "esnext",
     "lib": ["dom", "esnext"],
+    "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     // output .d.ts declaration files for consumers
     "declaration": true,
