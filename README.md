@@ -9,6 +9,16 @@ Simplest react store that does the job.
 
 This package was originally written for fun some years ago.
 
+Lightweight and easy-to-use state management solution for React applications. It provides a simple API for creating and managing stores, making state management more approachable and less cumbersome. With this package, developers can quickly set up and utilize state management in their React projects without the need for complex setups or extensive boilerplate code.
+
+The key features of Simplest-React-Store include:
+
+1. <b>Minimalist Approach</b>: The package embraces simplicity and aims to provide a straightforward solution for state management in React applications.
+
+2. <b>Small Footprint</b>: Simplest-React-Store is designed to be lightweight and has a minimal impact on bundle size, ensuring optimal performance for applications.
+
+3. <b>Intuitive API</b>: The API is intuitive and easy to understand, making it accessible for developers of all skill levels.
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -34,6 +44,7 @@ yarn add simplest-react-store
 ## Usage
 
 ### 1. Define your store
+
 ```typescript
 // store.ts
 import { createStore } from 'simplest-react-store';
@@ -71,6 +82,7 @@ export const { useStore, useStoreProp, Provider } = createStore(
 ```
 
 ### 2. Import Provider in your main app file
+
 ```typescript
 // _app.tsx
 import { Provider as MyStoreProvider } from "./store";
@@ -85,6 +97,7 @@ function App({ Component, pageProps }: AppProps) {
 ```
 
 ### 3. Use state anywhere in your components
+
 ```typescript
 // MyComponent.tsx
 import { useEffect } from 'react';
