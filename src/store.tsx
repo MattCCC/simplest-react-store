@@ -50,7 +50,9 @@ export function createStore<S, M extends Mutations<S>>(
     const mutationResult = mutations[action.type](prevState, ...action.payload as unknown[]);
 
     if (typeof mutationResult !== "object" || mutationResult === null) {
-      return prevState;
+      return {
+        ...prevState,
+      };
     }
 
     return {
